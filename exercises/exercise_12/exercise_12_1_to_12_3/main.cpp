@@ -467,8 +467,8 @@ void setup(){
     //bloomShader = new Shader("shaders/bloom.vert", "shaders/bloom.frag");
     //treeShader = new Shader("shaders/floor_shader.vert", "shaders/floor_shader.frag");
     //waterShader = new Shader("shaders/floor_shader.vert", "shaders/floor_shader.frag");
-    Bloom = new Shader("shaders/bloom.vert", "shaders/shader.frag");
-    shaderLight = new Shader("shaders/bloom.vert", "shaders/bloom.frag");
+    Bloom = new Shader("shaders/bloom.vert", "shaders/bloom.frag");
+    shaderLight = new Shader("shaders/bloom.vert", "shaders/light.frag");
     shaderBlur = new Shader("shaders/blur.vert", "shaders/blur.frag");
     shaderBloomFinal = new Shader("shaders/bloom_final.vert", "shaders/bloom_final.frag");
     //--------------------
@@ -523,7 +523,7 @@ void drawTrees(Model* type, float x, float y, float z){
 
 //-TODO----SHADER-----
 void drawCrystals(float x, float y, float z){
-    Shader* shader = new Shader("shaders/tree_shader.vert", "shaders/tree_shader.frag");
+    Shader* shader = new Shader("shaders/crystal_shader.vert", "shaders/crystal_shader.frag");
     shader->use();
 
 
