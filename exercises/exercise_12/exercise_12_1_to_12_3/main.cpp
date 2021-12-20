@@ -473,7 +473,7 @@ void setup(){
     shaderBloomFinal = new Shader("shaders/bloom_final.vert", "shaders/bloom_final.frag");
     //--------------------
 
-something
+
     createParticles();
 }
 //----
