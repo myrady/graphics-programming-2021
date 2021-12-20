@@ -83,6 +83,9 @@ int main()
     }
 
 
+
+
+
     // build and compile our shader program
     // ------------------------------------
 
@@ -162,6 +165,11 @@ int main()
 }
 
 
+
+
+
+
+
 // create a vertex buffer object (VBO) from an array of values, return VBO handle (set as reference)
 // -------------------------------------------------------------------------------------------------
 void createArrayBuffer(const std::vector<float> &array, unsigned int &VBO){
@@ -188,9 +196,9 @@ void setupShape(const unsigned int shaderProgram,unsigned int &VAO, unsigned int
 
     createArrayBuffer( std::vector<float>{
             // color
-            1.0f,  0.0f, 0.0f,
-            1.0f,  0.0f, 0.0f,
-            1.0f,  0.0f, 0.0f
+            1.0f,  0.0f, 0.5f,
+            1.0f,  0.5f, 0.0f,
+            0.0f,  0.0f, 0.5f
     }, colorVBO);
 
     // tell how many vertices to draw

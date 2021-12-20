@@ -9,11 +9,6 @@
 #include <sstream>
 #include <iostream>
 
-/// Shader class from https://learnopengl.com
-/// https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/shader.h
-/// modified to store the shader on memory, and permit editing and recompilation at runtime
-
-
 class Shader
 {
 public:
@@ -58,7 +53,7 @@ public:
                 geometryCode = gShaderStream.str();
             }
         }
-        catch (std::ifstream::failure& e)
+        catch (std::ifstream::failure e)
         {
             std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
         }

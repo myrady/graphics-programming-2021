@@ -141,7 +141,7 @@ int main()
 	carInterior = new Model("car/Interior_LOD0.obj");
 	carWindow = new Model("car/Windows_LOD0.obj");
 	carWheel = new Model("car/Wheel_LOD0.obj");
-	floorModel = new Model("floor/floor_no_material.obj");
+	floorModel = new Model("floor/flooor.obj");
 
     // set up the z-buffer
     glDepthRange(-1,1); // make the NDC a right handed coordinate system, with the camera pointing towards -z
@@ -219,7 +219,7 @@ void loadFloorTexture(){
     //  and load the texture 'floor/checkboard_texture.png'
 
     int width, height, nrComponents;
-    unsigned char *data = stbi_load("floor/checkboard_texture.png", &width, &height, &nrComponents, 0);
+    unsigned char *data = stbi_load("floor/FloorAlbedo.jpg", &width, &height, &nrComponents, 0);
     if (data) {
         GLenum format = GL_RGB;
 

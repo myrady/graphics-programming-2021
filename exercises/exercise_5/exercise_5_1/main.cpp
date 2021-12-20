@@ -77,7 +77,7 @@ int main()
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Exercise 5.1", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Exercise 5.1mmmmm", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -211,15 +211,21 @@ glm::mat4 viewProjection(){
     if (g_perspectiveProjection) {
         // TODO 5.1 - create a view matrix, that transforms points in the world coordinates to the camera coordinates
         //  you can use glm::lookat for that, set position to (0,0,2) and the camera forward to (0,0,-1)
-
-
+        glm::vec3 cameraPos(0,0,2); // or vrp
+        glm::vec3 forward(0,0,-1); // or -vpn
+        glm::vec3 vup(0,1,0);
+        glm::mat4 view = glm::lookAt(cameraPos, cameraPos + forward, vup);
         // TODO 5.1 - create a projection using the glm::perspectiveFov function,
         //  and use it to view the object (i.e. multiply with model)
-
+     //   glm::perspectiveFov(forward, SCR_WIDTH, SCR_HEIGHT,glm::vec3(3,1.0f,0), 1);
 
         // TODO 5.1 - multiply the matrices together in the right order to return the viewprojection matrix,
         //  you want the final matrix to first move points into camera coordinates, and then project
         //  press 6 to see the result
+
+
+
+
 
         return glm::mat4(1);
     }

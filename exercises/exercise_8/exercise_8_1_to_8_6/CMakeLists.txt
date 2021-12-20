@@ -15,7 +15,8 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders DESTINATION ${CMAKE_CURRENT_BINARY
 ## copy models
 file(GLOB car_geom "${CMAKE_SOURCE_DIR}/common/models/car/*.obj")
 file(COPY ${car_geom} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/car)
-file(COPY ${CMAKE_SOURCE_DIR}/common/models/floor/floor.obj DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/floor)
+##file(COPY ${CMAKE_SOURCE_DIR}/common/models/exam/floor.obj DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/floor)
+file(COPY ${CMAKE_SOURCE_DIR}/common/models/exam/flo.obj DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/floor)
 
 ## copy again at the time the current target gets compiled
 add_custom_command(

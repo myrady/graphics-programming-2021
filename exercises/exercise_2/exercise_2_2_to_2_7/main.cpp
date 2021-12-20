@@ -24,12 +24,14 @@ float currentTime;
 unsigned int VAO, VBO;                          // vertex array and buffer objects
 const unsigned int vertexBufferSize = 65536;    // # of particles
 
+
 // TODO 2.2 update the number of attributes in a particle
 const unsigned int particleSize = 2;            // particle attributes
 
 const unsigned int sizeOfFloat = 4;             // bytes in a float
 unsigned int particleId = 0;                    // keep track of last particle to be updated
-Shader *shaderProgram;                          // our shader program
+//Shader *shaderProgram;                          // our shader program
+unsigned int shaderProgram;
 
 int main()
 {
@@ -67,14 +69,20 @@ int main()
 
     // build and compile our shader program
     // ------------------------------------
-    shaderProgram = new Shader("shaders/shader.vert", "shaders/shader.frag");
+    //shaderProgram = new Shader("shaders/shader.vert", "shaders/shader.frag");
+
+    Shader ourShader("shader.vert", "shader.frag"); // you can name your shader files however you like
+    shaderProgram = ourShader.ID;
+
+
 
     // NEW!
     // enable built in variable gl_PointSize in the vertex shader
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 
     // TODO 2.4 enable alpha blending (for transparency)
-
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
 
 
     createVertexBufferObject();
@@ -140,7 +148,15 @@ void bindAttributes(){
     glVertexAttribPointer(vertexLocation, posSize, GL_FLOAT, GL_FALSE, particleSize * sizeOfFloat, 0);
 
     // TODO 2.2 set velocity and timeOfBirth shader attributes
+    int velSize = 2; // velocity has x,y
+    GLuint vertexVel = glGetAttribLocation(shaderProgram, "velocity");
+    glEnableVertexAttribArray(vertexVel);
+    glVertexAttribPointer(vertexVel, velSize, GL_FLOAT, GL_FALSE, particleSize * sizeOfFloat, (void*) (sizeOfFloat * posSize));
 
+    int timeSize = 2; // time of birth is a single float
+    GLuint vertexBornTime = glGetAttribLocation(shaderProgram, "timeOfBirth");
+    glEnableVertexAttribArray(vertexBornTime);
+    glVertexAttribPointer(vertexBornTime, timeSize, GL_FLOAT, GL_FALSE, particleSize * sizeOfFloat, (void*) (sizeOfFloat * (posSize + velSize)));
 
 
 }

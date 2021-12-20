@@ -184,6 +184,10 @@ void setup(){
                                       airplane.planeWingIndices);
     planeWing.vertexCount = airplane.planeWingIndices.size();
 
+
+    planePropeller.VAO = createVertexArray(airplane.planePropellerVertices, airplane.planePropellerColors, airplane.planePropellerIndices);
+    planePropeller.vertexCount = airplane.planePropellerIndices.size();
+
 }
 
 
@@ -241,6 +245,18 @@ void processInput(GLFWwindow *window)
     // you will need to read A and D key press inputs
     // if GLFW_KEY_A is GLFW_PRESS, plane turn left
     // if GLFW_KEY_D is GLFW_PRESS, plane turn right
+
+    planeLeaning =  glm::rotate( 0.0f, glm::vec3(0,1,0));
+
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        planeRotation += 0.02f;
+        planeLeaning =  glm::rotate(planeLeaning, -glm::quarter_pi<float>(), glm::vec3(0,1,0));
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        planeRotation -= 0.02f;
+        planeLeaning =  glm::rotate(planeLeaning, glm::quarter_pi<float>(), glm::vec3(0,1,0));
+    }
+
 
 }
 

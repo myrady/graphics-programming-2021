@@ -65,8 +65,9 @@ float currentTime;
 glm::vec2 clickStart(0.0f), clickEnd(0.0f);
 
 // TODO 4.1 and 4.2 - global variables you might need
-
-
+SceneObject arrow;
+float planeSpeed = 0.0f;
+glm::vec2 planePosition = glm::vec2(0.0,0.0);
 
 int main()
 {
@@ -165,7 +166,37 @@ int main()
 
 void drawArrow(){
     // TODO - 4.2 implement the draw arrow
+    // TODO
+    // implement the draw arrow
+    // distance vector from clickStart to clickEnd
+    glm::vec2 clickDiff = clickEnd - clickStart;
+    // do not draw if the distance is too small
+    if(glm::dot(clickDiff, clickDiff) < 0.000001f)
+        return;
 
+    // set position at click start, set z value to draw it behind the plane
+    glm::mat4 position = glm::translate(clickStart.x, clickStart.y, -.5f);
+
+    // ROTATION METHOD 1
+    // the local coordinates of the plane model are centralized and its nose is facing its local +Y component
+    // we use this knowledge to build the (0, 1) vector, not unlike the slides, as if we were subtracting the points (0,1) - (0,0) (0 because the model is centralized)
+    glm::vec2 planeForward (0.0f, 1.0f);
+    // clickDiff defines the forward vector that we want the plane to align with
+    // we compute the angle between the model forward and the forward we want the plane to face
+    float cos = glm::dot(planeForward, glm::normalize(clickDiff));
+    // define the rotation axis using the cross product
+    glm::vec3 axis = glm::cross(glm::vec3(planeForward, .0f), glm::vec3(glm::normalize(clickDiff), 0.f));
+    // we given sin and cos to the atan2 function, remember that |A x B| = |A||B|sin(angle) and that all our vectors have length 1
+    float angle = glm::atan(glm::length(axis), cos);
+    // set rotation matrix
+    glm::mat4 rotation = glm::rotate(angle, axis);
+
+    // set scale matrix
+    glm::mat4 scale = glm::scale(.1f, glm::length(clickDiff), 1.0f);
+    // set shader "model" matrix
+    shaderProgram->setMat4("model", position * rotation * scale);
+
+    arrow.drawSceneObject();
 }
 
 void drawPlane(){
@@ -219,7 +250,7 @@ void drawPlane(){
 
 void setup(){
     // initialize shaders
-    shaderProgram = new Shader("shader.vert", "shader.frag");
+    shaderProgram = new Shader("shaders/shader.vert", "shaders/shader.frag");
 
     PlaneModel& airplane = PlaneModel::getInstance();
     // initialize plane body mesh objects
@@ -241,7 +272,10 @@ void setup(){
     planePropeller.vertexCount = airplane.planePropellerIndices.size();
 
     // TODO 4.2 - load the arrow mesh
-
+  //  arrow.VAO = createVertexArray(arrowVertices, arrowColors, arrowIndices);
+   // arrow.vertexCount = arrowIndices.size();
+    arrow.VAO = createVertexArray(arrowVertices, arrowColors, arrowIndices);
+    arrow.vertexCount = arrowIndices.size();
 
 }
 
@@ -322,12 +356,19 @@ void button_input_callback(GLFWwindow* window, int button, int action, int mods)
         cursorInNdc(screenX, screenY, screenW, screenH, clickStart.x, clickStart.y);
         // reset the end position
         cursorInNdc(screenX, screenY, screenW, screenH, clickEnd.x, clickEnd.y);
-
+        planeSpeed = 0.0f ;
+        planePosition = clickStart;
     }
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
         // set the end position
         cursorInNdc(screenX, screenY, screenW, screenH, clickEnd.x, clickEnd.y);
         // reset the start position
+       // cursorInNdc(screenX, screenY, screenW, screenH, clickStart.x, clickStart.y);
+
+
+
+        glm::vec2 mouseDir = clickEnd-clickStart;
+        planeSpeed = glm::length(mouseDir) * 0.03f ;
         cursorInNdc(screenX, screenY, screenW, screenH, clickStart.x, clickStart.y);
     }
 }
